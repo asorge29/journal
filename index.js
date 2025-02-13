@@ -10,7 +10,7 @@ const createWindow = () => {
             width: width-relWinSize*2.8,
             height: height-relWinSize,
             transparent: true,
-            // frame: false
+            frame: false
         })
     win.loadFile('index.html')
 }
