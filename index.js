@@ -5,7 +5,7 @@ const createWindow = () => {
         width: 1800,
         height: 1300,
         transparent: true,
-        // frame: false
+        frame: false
     })
 
     win.loadFile('index.html')
