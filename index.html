@@ -2,18 +2,22 @@
 <html>
 <head>
     <style>
+        body{
+            overflow: hidden;
+        }
         div {
             -webkit-app-region: drag;
-            margin: 0;
+            margin: 2px;
             background-image: url(Journal.png);
-            height: 98vh;
-            width:  98vw;
+            width: 99vw;
+            height: 99vh;
             background-position: center;
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: contain;
 
         }
         textarea {
+            -webkit-app-region: no-drag;
             background: transparent;
         }
     </style>
@@ -30,7 +34,7 @@
 </head>
 <body>
     <div>
-        <textarea style="position: absolute; left: 40vw; top: 40vh">
+        <textarea>
 
         </textarea>
         <textarea>
