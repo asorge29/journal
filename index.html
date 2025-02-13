@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body{
-            overflow: hidden;
-        }
-        div {
-            -webkit-app-region: drag;
-            margin: 2px;
-            background-image: url(Journal.png);
-            width: 99vw;
-            height: 99vh;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            display: flex;
-            place-content: center;
-            align-content: center;
-            justify-content: center;
-        }
-        textarea {
-            -webkit-app-region: no-drag;
-            resize: none;
-            background: transparent;
-            margin: auto 0;
-            width: 37vw;
-            height: 95vh;
-            font-size: 5vh;
-            line-height: 5.58823529412vh;
-
-        }
-    </style>
 <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
 <meta
@@ -41,11 +11,15 @@
     http-equiv="X-Content-Security-Policy"
     content="default-src 'self'; script-src 'self'"
 />
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
     <div>
+        <button class="quit"><img src="quitarrow.svg"/></button>
         <textarea rows="16"></textarea>
         <textarea rows="16"></textarea>
+        <button class="left"><img src="leftarrow.svg"/></button>
+        <button class="right"><img src="rightarrow.svg"/></button>
     </div>
 </body>
 </html>
