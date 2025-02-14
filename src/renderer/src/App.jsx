@@ -1,8 +1,14 @@
 import quitArrow from "./assets/quitarrow.svg"
 import leftArrow from "./assets/leftarrow.svg"
 import rightArrow from "./assets/rightarrow.svg"
+import { useEffect } from "react";
 
 function App() {
+
+
+  useEffect(() => {
+    //When the page is turned or the application is exited, save to .journ file
+  }, []);
 
   return (
     <div>
