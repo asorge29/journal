@@ -19,12 +19,18 @@ textarea {
   -webkit-app-region: no-drag;
   resize: none;
   background: transparent;
-  margin: auto 0;
+  border: none;
+  margin: auto 1vw;
   width: 37vw;
   height: 95vh;
   font-size: 5vh;
   line-height: 5.58823529412vh;
 
+}
+
+textarea:focus {
+  border: none;
+  outline: none;
 }
 .quit {
   -webkit-app-region: no-drag;

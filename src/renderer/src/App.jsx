@@ -16,7 +16,6 @@ function App() {
         <img src={quitArrow} alt="quit"/>
       </button>
       <textarea rows="16"></textarea>
-      <button></button>
       <textarea rows="16"></textarea>
       <button className="left">
         <img src={leftArrow} alt="left" />
