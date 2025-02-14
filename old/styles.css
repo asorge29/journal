@@ -4,7 +4,7 @@ body{
 div {
     -webkit-app-region: drag;
     margin: 2px;
-    background-image: url(Journal.png);
+    background-image: url(../src/renderer/src/assets/Journal.png);
     width: 99vw;
     height: 99vh;
     background-position: center;

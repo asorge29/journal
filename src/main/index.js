@@ -9,6 +9,8 @@ function createWindow() {
     width: 900,
     height: 670,
     show: false,
+    transparent: true,
+    frame: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -49,8 +51,9 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.on("quit-app", () => {
+    app.quit();
+  });
 
   createWindow()
 
