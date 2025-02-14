@@ -1,14 +1,24 @@
 import quitArrow from "./assets/quitarrow.svg"
 import leftArrow from "./assets/leftarrow.svg"
 import rightArrow from "./assets/rightarrow.svg"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
 
+  const [data, setData] = useState([{ entry: '', body: 'Hello', page: 0 }]);
+
+
+  useEffect(() => {
+    //initial render only (parse journ file)
+
+
+  }, []);
 
   useEffect(() => {
     //When the page is turned or the application is exited, save to .journ file
-  }, []);
+    //every render
+
+  });
 
   return (
     <div>
