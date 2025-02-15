@@ -23,7 +23,9 @@
     "file-saver": "^2.0.5",
     "node": "^23.8.0",
     "node.js": "^0.0.1-security",
-    "react-native-fs": "^2.20.0"
+    "react-native-fs": "^2.20.0",
+    "save-file": "^2.3.1",
+    "write": "^2.0.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
