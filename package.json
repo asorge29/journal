@@ -21,9 +21,12 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "file-saver": "^2.0.5",
+    "is-blob": "^3.0.0",
+    "is-buffer": "^2.0.5",
     "node": "^23.8.0",
     "node.js": "^0.0.1-security",
-    "react-native-fs": "^2.20.0"
+    "react-native-fs": "^2.20.0",
+    "simple-mime": "^0.1.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
