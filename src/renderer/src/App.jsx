@@ -2,11 +2,13 @@ import quitArrow from "./assets/quitarrow.svg"
 import leftArrow from "./assets/leftarrow.svg"
 import rightArrow from "./assets/rightarrow.svg"
 import { useEffect, useState } from "react";
+import { saveAs } from 'file-saver';
 
 function App() {
 
-  const [data, setData] = useState([{ entry: '', body: 'Hello', page: 0 }]);
-
+  //File Saving!!!
+  // const blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+  // saveAs(blob, "hello world.txt");
 
   useEffect(() => {
     //initial render only (parse journ file)
@@ -17,6 +19,7 @@ function App() {
   useEffect(() => {
     //When the page is turned or the application is exited, save to .journ file
     //every render
+
 
   });
 
