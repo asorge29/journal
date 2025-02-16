@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import fs from 'fs'
 
 let mainWindow = null
 
@@ -20,7 +21,9 @@ function createWindow() {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: true,
+      nodeIntegration: false,
     }
   })
 
@@ -78,6 +81,10 @@ ipcMain.handle('open-file-picker', async () => {
   })
 
   return result.filePaths // Returns an array of selected file paths
+})
+
+ipcMain.handle('read-file', (_, filePath) => {
+  return fs.readFileSync(filePath, 'utf-8')
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

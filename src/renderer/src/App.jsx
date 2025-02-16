@@ -5,9 +5,17 @@ import { useEffect, useState, useRef } from 'react'
 
 function App() {
   const [journalPath, setJournalPath] = useState(null) //state var to hold path to journal file, initialized to null
-  const [data, setData] = useState(''); //text that downloads to the .journ file.
+  const [journalData, setJournalData] = useState(null)
+  const [text, setText] = useState(''); //text that downloads to the .journ file.
 
-  let isQuit = false;
+  useEffect(() => {
+    if (journalPath !== null) {
+      window.electron.readFile(journalPath).then(data => {
+        setJournalData(data)
+        console.log(data)
+      })
+    }
+  }, [journalPath]);
 
   useEffect(() => {
     //initial render only (parse journ file)
@@ -18,6 +26,7 @@ function App() {
     //every render
   })
 
+
   //selects a *.journ file and saves it's path to journalPath
   const loadFile = async () => {
     const files = await window.electron.openFilePicker();
@@ -26,8 +35,8 @@ function App() {
   }
 
   // downloads a file with the text variable as it's data, default name is journal.journ
-  const downloadFile = async () => {
-    const blob = new Blob([data], { type: 'text/plain' });
+  const downloadFile = () => {
+    const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -36,23 +45,9 @@ function App() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
-    //This is the only solution I can come up with, all of the above code is run instantaneously so no matter what await or .then you use it never
-    //finish saving the file before running the quit code. The code below checks if isQuit is true which it's false at the start, then it goes to the else statement
-    //where it sets isQuit to true, so the second time you run this function it will quit instead of saving. There is a problem with this of course, if you quit and save and then
-    // choose to keep writing then next time you hit quit it won't save. So I was thinking a timer or something, we'll figure it out. We can always just have a dedicated save button too.
-    if(isQuit === true){
-      window.electron.exitApp()
-    }
-    else {
-      isQuit = true;
-    }
-
   }
 
-  const readFile = async () => {
 
-  }
 
   return (
     <div>

@@ -12,7 +12,8 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electron', {
       ...electronAPI,
       exitApp: api.exitApp, // Extend electronAPI
-      openFilePicker: () => ipcRenderer.invoke('open-file-picker')
+      openFilePicker: () => ipcRenderer.invoke('open-file-picker'),
+      readFile: (path) => ipcRenderer.invoke('read-file', path)
     })
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
