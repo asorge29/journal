@@ -32,6 +32,9 @@ textarea:focus {
   border: none;
   outline: none;
 }
+input {
+  -webkit-app-region: no-drag;
+}
 .quit {
   -webkit-app-region: no-drag;
   background: transparent;
@@ -74,12 +77,21 @@ textarea:focus {
   width: 100%;
   height: 100%;
 }
+button {
+  -webkit-app-region: no-drag;
+}
 button:hover {
   cursor: pointer;
 }
 .loadButton {
   position: absolute;
   top: 5vh;
+  left: 7vw;
+  z-index: 200;
+}
+.downloadButton {
+  position: absolute;
+  top: 8vh;
   left: 7vw;
   z-index: 200;
 }
