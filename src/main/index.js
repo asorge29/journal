@@ -1,18 +1,18 @@
-import { app, shell, BrowserWindow, ipcMain, screen } from "electron";
+import { app, shell, BrowserWindow, ipcMain, screen, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-let mainWindow = null;
+let mainWindow = null
 
 function createWindow() {
-  const relWinSize = 400;
+  const relWinSize = 400
   const primaryDisplay = screen.getPrimaryDisplay()
-  const {width, height} = primaryDisplay.workAreaSize;
+  const { width, height } = primaryDisplay.workAreaSize
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: width-relWinSize*2.8,
-    height: height-relWinSize,
+    width: width - relWinSize * 2.8,
+    height: height - relWinSize,
     show: false,
     transparent: true,
     frame: false,
@@ -29,16 +29,16 @@ function createWindow() {
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
+    shell.openExternal(details.url).then()
     return { action: 'deny' }
   })
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']).then()
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html')).then()
   }
 }
 
@@ -56,9 +56,9 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.on("quit-app", () => {
-    app.quit();
-  });
+  ipcMain.on('quit-app', () => {
+    app.quit()
+  })
 
   createWindow()
 
@@ -67,6 +67,17 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+ipcMain.handle('open-file-picker', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    title: 'Open a Journal',
+    buttonLabel: 'Open',
+    properties: ['openFile'],
+    filters: [{ name: 'Journal Files', extensions: ['journ'] }]
+  })
+
+  return result.filePaths // Returns an array of selected file paths
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
