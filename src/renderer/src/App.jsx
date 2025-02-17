@@ -1,16 +1,17 @@
 import quitArrow from './assets/quitarrow.svg'
 import leftArrow from './assets/leftarrow.svg'
 import rightArrow from './assets/rightarrow.svg'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 function App() {
   const [journalPath, setJournalPath] = useState(null) //state var to hold path to journal file, initialized to null
-  const [journalData, setJournalData] = useState({ title: "test", last_page:  0, pages : ["", ""] })
+  const [journalData, setJournalData] = useState({ title: "test", last_page:  0, page : "" })
 
 
   useEffect(() => {
     if (journalPath !== null) {
       window.electron.readFile(journalPath).then(data => {
+        data = JSON.parse(data)
         setJournalData(data)
         console.log(data)
       })
@@ -19,27 +20,40 @@ function App() {
 
   useEffect(() => {
     if (journalPath !== null) {
-      window.electron.writeFile(journalPath, journalData)
+      window.electron.writeFile(journalPath, JSON.stringify(journalData))
     }
 
   }, [journalData])
+
+  useEffect(() => {
+    //loads on initial render
+    readFile();
+
+  }, [])
 
   useEffect(() => {
     //When the page is turned or the application is exited, save to .journ file
     //every render
   })
 
+  const readFile = async () => {
+    const fileLocation = await window.electron.relativeReadFile("../../lastWritten.txt")
+    setJournalPath(fileLocation);
+  }
 
   //selects a *.journ file and saves it's path to journalPath
   const loadFile = async () => {
     const files = await window.electron.openFilePicker();
-    setJournalPath(files[0])
+    setJournalPath(files[0].toString())
+    if(journalPath !== null) {
+      await window.electron.relativeWriteFile("../../lastWritten.txt", journalPath)
+    }
     console.log(`Opening ${files[0]}`)
   }
 
   // downloads a file with the text variable as it's data, default name is journal.journ
   const downloadFile = () => {
-    const blob = new Blob([text], { type: 'text/plain' });
+    const blob = new Blob([journalData], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -64,7 +78,7 @@ function App() {
         Quit
         <img src={quitArrow} alt="quit" />
       </button>
-      <textarea rows="16" defaultValue={journalData.pages[0]} onChange={(e) => setJournalData((prev) => ({...prev, pages: prev.pages.map((page, i) => i === 0 ? e.target.value : page)}))}></textarea>
+      <textarea rows="16" cols="2" defaultValue={journalData.page} onChange={(e) => setJournalData((prev) => ({...prev, title: journalData.title, last_page: 0, page: e.target.value}))}></textarea>
       <textarea rows="16"></textarea>
       <input type="text" value={journalPath} />
       <button className="left">

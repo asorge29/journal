@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
+import path from 'path'
 
 let mainWindow = null
 
@@ -89,6 +90,12 @@ ipcMain.handle('read-file', (_, filePath) => {
 
 ipcMain.handle('write-file', (_, filePath, data) => {
   fs.writeFileSync(filePath, data)
+})
+ipcMain.handle('relative-write-file', (_, filePath, data) => {
+  fs.writeFileSync(path.resolve(__dirname, filePath), data)
+})
+ipcMain.handle('relative-read-file', (_, filePath) => {
+  return fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8')
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
