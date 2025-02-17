@@ -13,7 +13,8 @@ if (process.contextIsolated) {
       ...electronAPI,
       exitApp: api.exitApp, // Extend electronAPI
       openFilePicker: () => ipcRenderer.invoke('open-file-picker'),
-      readFile: (path) => ipcRenderer.invoke('read-file', path)
+      readFile: (path) => ipcRenderer.invoke('read-file', path),
+      writeFile: (path, data) => ipcRenderer.invoke('write-file', path, data)
     })
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {

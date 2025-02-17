@@ -5,8 +5,8 @@ import { useEffect, useState, useRef } from 'react'
 
 function App() {
   const [journalPath, setJournalPath] = useState(null) //state var to hold path to journal file, initialized to null
-  const [journalData, setJournalData] = useState(null)
-  const [text, setText] = useState(''); //text that downloads to the .journ file.
+  const [journalData, setJournalData] = useState({ title: "test", last_page:  0, pages : ["", ""] })
+
 
   useEffect(() => {
     if (journalPath !== null) {
@@ -18,8 +18,11 @@ function App() {
   }, [journalPath]);
 
   useEffect(() => {
-    //initial render only (parse journ file)
-  }, [])
+    if (journalPath !== null) {
+      window.electron.writeFile(journalPath, journalData)
+    }
+
+  }, [journalData])
 
   useEffect(() => {
     //When the page is turned or the application is exited, save to .journ file
@@ -61,7 +64,7 @@ function App() {
         Quit
         <img src={quitArrow} alt="quit" />
       </button>
-      <textarea rows="16"></textarea>
+      <textarea rows="16" defaultValue={journalData.pages[0]} onChange={(e) => setJournalData((prev) => ({...prev, pages: prev.pages.map((page, i) => i === 0 ? e.target.value : page)}))}></textarea>
       <textarea rows="16"></textarea>
       <input type="text" value={journalPath} />
       <button className="left">
