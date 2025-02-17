@@ -25,9 +25,10 @@ function App() {
 
   }, [journalData])
 
-  useEffect(() => {
-    //loads on initial render
-    readFile();
+  useEffect(async () => {
+    //loads on initial and sets the journal path to the last opened .journ file
+    const fileLocation = await window.electron.relativeReadFile("../../lastWritten.txt")
+    setJournalPath(fileLocation);
 
   }, [])
 
@@ -36,10 +37,6 @@ function App() {
     //every render
   })
 
-  const readFile = async () => {
-    const fileLocation = await window.electron.relativeReadFile("../../lastWritten.txt")
-    setJournalPath(fileLocation);
-  }
 
   //selects a *.journ file and saves it's path to journalPath
   const loadFile = async () => {
