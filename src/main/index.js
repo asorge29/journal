@@ -89,7 +89,7 @@ ipcMain.handle('read-file', (_, filePath) => {
 })
 
 ipcMain.handle('write-file', async (_, filePath, data) => {
-  return fs.writeFileSync(filePath, data)
+  fs.writeFileSync(filePath, data)
 
 })
 ipcMain.handle('relative-write-file', (_, filePath, data) => {
