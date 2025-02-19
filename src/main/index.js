@@ -89,8 +89,8 @@ ipcMain.handle('read-file', (_, filePath) => {
 })
 
 ipcMain.handle('write-file', async (_, filePath, data) => {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
-  return true
+  return fs.writeFileSync(filePath, data)
+
 })
 ipcMain.handle('relative-write-file', (_, filePath, data) => {
   fs.writeFileSync(path.resolve(__dirname, filePath), data)

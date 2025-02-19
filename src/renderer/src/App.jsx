@@ -13,7 +13,7 @@ function App() {
   const rightPageRef = useRef(null);
 
   // Modified this so we can use async properly
-  // wont work for me though i get a 'file doesnt exist' error even though i modified it to my exact path
+  // won't work for me though i get a 'file doesn't exist' error even though i modified it to my exact path
   useEffect(() => {
     //loads on initial and sets the journal path to the last opened .journ file
     const loadLast = async () => {
@@ -38,10 +38,32 @@ function App() {
   // it says the writeFile function isnt defined
   // useEffect(() => {
   //   if (journalPath !== null) {
-  //     window.electron.writeFile(journalPath, JSON.stringify(journalData))
+  //     window.electron.writeFile(journalPath, journalData)
   //   }
   //
   // }, [journalData])
+  useEffect(() => {
+    if (journalPath !== null) {
+      window.electron.writeFile(journalPath, JSON.stringify(journalData, null, 2))
+    }
+
+  }, [journalData])
+
+  useEffect(() => {
+    //loads on initial render, loads the last loaded file. Couple issues: Doesn't work in build and doesn't work unless you load a file twice before quitting and reopening.
+    readFile();
+
+  }, [])
+
+  useEffect(() => {
+    //When the page is turned or the application is exited, save to .journ file
+    //every render
+  })
+
+  const readFile = async () => {
+    const fileLocation = await window.electron.relativeReadFile("../../lastWritten.txt")
+    setJournalPath(fileLocation);
+  }
 
   //selects a *.journ file and saves it's path to journalPath
   const loadFile = async () => {
@@ -97,6 +119,7 @@ function App() {
     console.log(journalData);
   };
 
+  console.log(journalData.pages);
   return (<div>
     <button className="loadButton" onClick={loadFile}>
       Load file
@@ -108,18 +131,18 @@ function App() {
       Quit
       <img src={quitArrow} alt="quit" />
     </button>
-    <textarea rows="16" ref={leftPageRef} value={journalData.pages[currentPage] || ''}
+    <textarea rows="16" ref={leftPageRef} value={journalData.pages[currentPage] || ""}
               onChange={(e) => handleChange(e, currentPage)}></textarea>
     {/* had to switch from defaultValue to value to make sure text boxes clear when increasing currentPage */}
-    <textarea rows="16" ref={rightPageRef} value={journalData.pages[currentPage + 1] || ''}
+    <textarea rows="16" ref={rightPageRef} value={journalData.pages[currentPage + 1] || ""}
               onChange={(e) => handleChange(e, currentPage + 1)}></textarea>
     <input type="text" value={journalPath} />
     {/* added basic page turning function */}
-    <button className="left">
-      <img src={leftArrow} onClick={() => setCurrentPage(currentPage - 2)} alt="left" />
+    <button onClick={() => setCurrentPage(currentPage - 2)} className="left">
+      <img src={leftArrow} alt="left" />
     </button>
-    <button className="right">
-      <img src={rightArrow} onClick={() => setCurrentPage(currentPage + 2)} alt="right" />
+    <button onClick={() => setCurrentPage(currentPage + 2)} className="right">
+      <img src={rightArrow}  alt="right" />
     </button>
   </div>);
 }
